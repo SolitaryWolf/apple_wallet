@@ -1,0 +1,22 @@
+PODS:
+  - apple_wallet (0.1.0):
+    - Flutter
+  - Flutter (1.0.0)
+
+DEPENDENCIES:
+  - apple_wallet (from `.symlinks/plugins/apple_wallet/ios`)
+  - Flutter (from `Flutter`)
+
+EXTERNAL SOURCES:
+  apple_wallet:
+    :path: ".symlinks/plugins/apple_wallet/ios"
+  Flutter:
+    :path: Flutter
+
+SPEC CHECKSUMS:
+  apple_wallet: 8b6f6d9f1e436fc03b2ff6fbce4faceb6c3d5f2f
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+
+PODFILE CHECKSUM: 6e700dec67e6deac9b1c69bb14c49a2217a12d15
+
+COCOAPODS: 1.16.2
