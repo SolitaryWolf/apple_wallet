@@ -1,14 +1,25 @@
 name: apple_wallet
-description: "A new Flutter project."
-publish_to: 'none'
+description: A Flutter package for Apple Wallet integration with in-app provisioning and wallet extension support. Provides native iOS PassKit functionality for adding payment passes to Apple Wallet.
 version: 0.1.0
+homepage: https://github.com/yourusername/apple_wallet
+repository: https://github.com/yourusername/apple_wallet
+issue_tracker: https://github.com/yourusername/apple_wallet/issues
+topics:
+  - apple
+  - wallet
+  - passkit
+  - ios
+  - in-app-provisioning
+  - payment
 
 environment:
   sdk: ^3.8.1
+  flutter: ">=3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
+  plugin_platform_interface: ^2.1.7
 
 dev_dependencies:
   flutter_test:
@@ -16,4 +27,8 @@ dev_dependencies:
   flutter_lints: ^5.0.0
 
 flutter:
-  uses-material-design: true
+  plugin:
+    platforms:
+      ios:
+        pluginClass: AppleWalletPlugin
+        fileName: apple_wallet.swift
