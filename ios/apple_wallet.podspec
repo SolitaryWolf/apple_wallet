@@ -17,7 +17,7 @@ This package provides native iOS PassKit integration for adding payment passes t
   s.source_files     = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
-  s.platform = :ios, '12.0'
+  s.platform = :ios, '14.0'
 
   # PassKit framework is required for wallet functionality
   s.frameworks = 'PassKit', 'UIKit'
