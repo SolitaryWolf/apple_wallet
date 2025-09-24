@@ -49,17 +49,18 @@ public class AppleWalletPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
             return
         }
 
-        guard PKAddPaymentPassViewController.canAddPaymentPasses() else {
-            result(FlutterError(code: "CANNOT_ADD_PAYMENT_PASSES", message: "Cannot add payment passes", details: nil))
-            return
-        }
-
         guard let cardholderName = args["cardholderName"] as? String,
+              let primaryAccountIdentifier = args["primaryAccountIdentifier"] as? String,
               let primaryAccountSuffix = args["primaryAccountSuffix"] as? String,
               let localizedDescription = args["localizedDescription"] as? String,
               let paymentNetworkString = args["paymentNetwork"] as? String,
               let encryptedPassData = args["encryptedPassData"] as? [String: String] else {
             result(FlutterError(code: "MISSING_PARAMETERS", message: "Missing required parameters", details: nil))
+            return
+        }
+        
+        guard passLibrary != nil && passLibrary!.canAddSecureElementPass(primaryAccountIdentifier: primaryAccountIdentifier) else {
+            result(FlutterError(code: "CANNOT_ADD_PAYMENT_PASSES", message: "Cannot add payment passes", details: nil))
             return
         }
 
@@ -69,7 +70,7 @@ public class AppleWalletPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
         configuration?.cardholderName = cardholderName
         configuration?.primaryAccountSuffix = primaryAccountSuffix
         configuration?.localizedDescription = localizedDescription
-        configuration?.primaryAccountIdentifier = args["primaryAccountIdentifier"] as? String
+        configuration?.primaryAccountIdentifier = primaryAccountIdentifier
 
         if let paymentNetwork = paymentNetwork {
             configuration?.paymentNetwork = paymentNetwork
