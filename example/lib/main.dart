@@ -12,10 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Apple Wallet Example',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        useMaterial3: true,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
       home: const AppleWalletExample(),
     );
   }
@@ -83,9 +80,9 @@ class _AppleWalletExampleState extends State<AppleWalletExample> {
 
   PaymentPassRequest _createSamplePaymentPassRequest() {
     return const PaymentPassRequest(
-      cardholderName: 'John Doe',
-      primaryAccountSuffix: '1234',
-      localizedDescription: 'Sample Credit Card',
+      cardholderName: 'VU BAT TAT DAT',
+      primaryAccountSuffix: '0492',
+      localizedDescription: 'HomeCredit Card',
       paymentNetwork: PaymentNetwork.visa,
       encryptedPassData: {
         'version': '1',
@@ -95,10 +92,7 @@ class _AppleWalletExampleState extends State<AppleWalletExample> {
       },
       activationData: 'activation_data_here',
       wrappingKeyHash: 'wrapping_key_hash_here',
-      metadata: {
-        'issuer': 'Sample Bank',
-        'cardType': 'Credit',
-      },
+      metadata: {'issuer': 'Sample Bank', 'cardType': 'Credit'},
     );
   }
 
@@ -120,28 +114,19 @@ class _AppleWalletExampleState extends State<AppleWalletExample> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'PassKit Status',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
+                    const Text('PassKit Status', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 8),
                     Text('PassKit Available: $_isPassKitAvailable'),
                     Text('Can Add Passes: $_canAddPasses'),
                     const SizedBox(height: 8),
-                    Text(
-                      _statusMessage,
-                      style: const TextStyle(fontSize: 12, color: Colors.grey),
-                    ),
+                    Text(_statusMessage, style: const TextStyle(fontSize: 12, color: Colors.grey)),
                   ],
                 ),
               ),
             ),
             const SizedBox(height: 20),
             if (_canAddPasses) ...[
-              const Text(
-                'Add Payment Pass',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
+              const Text('Add Payment Pass', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               const SizedBox(height: 10),
               AddToAppleWalletButton(
                 paymentPassRequest: _createSamplePaymentPassRequest(),
@@ -151,17 +136,15 @@ class _AppleWalletExampleState extends State<AppleWalletExample> {
                     _statusMessage = 'Successfully added payment pass: $result';
                   });
                   _loadPaymentPasses();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Payment pass added successfully!')),
-                  );
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(const SnackBar(content: Text('Payment pass added successfully!')));
                 },
                 onError: (error) {
                   setState(() {
                     _statusMessage = 'Error adding payment pass: ${error.message}';
                   });
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Error: ${error.message}')),
-                  );
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: ${error.message}')));
                 },
                 margin: const EdgeInsets.symmetric(vertical: 8.0),
               ),
@@ -183,18 +166,12 @@ class _AppleWalletExampleState extends State<AppleWalletExample> {
               ),
             ],
             const SizedBox(height: 20),
-            const Text(
-              'Payment Passes in Wallet',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
+            const Text('Payment Passes in Wallet', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
             Expanded(
               child: _paymentPasses.isEmpty
                   ? const Center(
-                      child: Text(
-                        'No payment passes found in wallet',
-                        style: TextStyle(color: Colors.grey),
-                      ),
+                      child: Text('No payment passes found in wallet', style: TextStyle(color: Colors.grey)),
                     )
                   : ListView.builder(
                       itemCount: _paymentPasses.length,
@@ -215,17 +192,15 @@ class _AppleWalletExampleState extends State<AppleWalletExample> {
                               icon: const Icon(Icons.delete, color: Colors.red),
                               onPressed: () async {
                                 try {
-                                  final removed = await AppleWallet.removePaymentPass(
-                                    pass.passTypeIdentifier,
-                                  );
+                                  final removed = await AppleWallet.removePaymentPass(pass.passTypeIdentifier);
                                   if (removed) {
                                     setState(() {
                                       _statusMessage = 'Removed payment pass: ${pass.localizedDescription}';
                                     });
                                     _loadPaymentPasses();
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(content: Text('Payment pass removed')),
-                                    );
+                                    ScaffoldMessenger.of(
+                                      context,
+                                    ).showSnackBar(const SnackBar(content: Text('Payment pass removed')));
                                   } else {
                                     setState(() {
                                       _statusMessage = 'Failed to remove payment pass';
@@ -244,10 +219,7 @@ class _AppleWalletExampleState extends State<AppleWalletExample> {
                     ),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _loadPaymentPasses,
-              child: const Text('Refresh Payment Passes'),
-            ),
+            ElevatedButton(onPressed: _loadPaymentPasses, child: const Text('Refresh Payment Passes')),
           ],
         ),
       ),
