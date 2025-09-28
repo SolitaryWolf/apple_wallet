@@ -129,12 +129,14 @@ class _AppleWalletExampleState extends State<AppleWalletExample> {
               const Text('Add Payment Pass', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               const SizedBox(height: 10),
 
+              const Text('Custom AddToAppleWalletButton:', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+              const SizedBox(height: 5),
               AddToAppleWalletButton(
                 paymentPassRequest: _createSamplePaymentPassRequest(),
                 style: AddToAppleWalletButtonStyle.whiteOutline,
                 onSuccess: (result) {
                   setState(() {
-                    _statusMessage = 'Successfully added payment pass: $result';
+                    _statusMessage = 'Successfully added payment pass (Custom): $result';
                   });
                   _loadPaymentPasses();
 
@@ -144,10 +146,40 @@ class _AppleWalletExampleState extends State<AppleWalletExample> {
                 },
                 onError: (error) {
                   setState(() {
-                    _statusMessage = 'Error adding payment pass: ${error.message}';
+                    _statusMessage = 'Error adding payment pass (Custom): ${error.message}';
                   });
 
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: ${error.message}')));
+                },
+                margin: const EdgeInsets.symmetric(vertical: 8.0),
+              ),
+
+              const SizedBox(height: 15),
+              const Text('Native PKAddPassButton:', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+              const SizedBox(height: 5),
+              PKAddPassButton(
+                paymentPassRequest: _createSamplePaymentPassRequest(),
+                style: PKAddPassButtonStyle.black,
+                width: 180,
+                height: 44,
+                onSuccess: (result) {
+                  setState(() {
+                    _statusMessage = 'Successfully added payment pass (Native Fixed): $result';
+                  });
+                  _loadPaymentPasses();
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Payment pass added successfully via Native PKAddPassButton!')),
+                  );
+                },
+                onError: (error) {
+                  setState(() {
+                    _statusMessage = 'Error adding payment pass (Native Fixed): ${error.message}';
+                  });
+
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text('Native PKAddPassButton Error: ${error.message}')));
                 },
                 margin: const EdgeInsets.symmetric(vertical: 8.0),
               ),
