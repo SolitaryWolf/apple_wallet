@@ -128,26 +128,7 @@ class _AppleWalletExampleState extends State<AppleWalletExample> {
             if (_canAddPasses) ...[
               const Text('Add Payment Pass', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               const SizedBox(height: 10),
-              AddToAppleWalletButton(
-                paymentPassRequest: _createSamplePaymentPassRequest(),
-                style: AddToAppleWalletButtonStyle.black,
-                onSuccess: (result) {
-                  setState(() {
-                    _statusMessage = 'Successfully added payment pass: $result';
-                  });
-                  _loadPaymentPasses();
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(const SnackBar(content: Text('Payment pass added successfully!')));
-                },
-                onError: (error) {
-                  setState(() {
-                    _statusMessage = 'Error adding payment pass: ${error.message}';
-                  });
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: ${error.message}')));
-                },
-                margin: const EdgeInsets.symmetric(vertical: 8.0),
-              ),
+
               AddToAppleWalletButton(
                 paymentPassRequest: _createSamplePaymentPassRequest(),
                 style: AddToAppleWalletButtonStyle.whiteOutline,
@@ -156,11 +137,17 @@ class _AppleWalletExampleState extends State<AppleWalletExample> {
                     _statusMessage = 'Successfully added payment pass: $result';
                   });
                   _loadPaymentPasses();
+
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(const SnackBar(content: Text('Payment pass added successfully!')));
                 },
                 onError: (error) {
                   setState(() {
                     _statusMessage = 'Error adding payment pass: ${error.message}';
                   });
+
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: ${error.message}')));
                 },
                 margin: const EdgeInsets.symmetric(vertical: 8.0),
               ),
