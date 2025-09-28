@@ -9,11 +9,15 @@ public class AppleWalletPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "apple_wallet", binaryMessenger: registrar.messenger())
         let eventChannel = FlutterEventChannel(name: "apple_wallet/events", binaryMessenger: registrar.messenger())
-        
+
         let instance = AppleWalletPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
         eventChannel.setStreamHandler(instance)
-        
+
+        // Register the PKAddPassButton platform view
+        let factory = PKAddPassButtonViewFactory(messenger: registrar.messenger())
+        registrar.register(factory, withId: "PKAddPassButton")
+
         instance.passLibrary = PKPassLibrary()
         instance.setupPassLibraryNotifications()
     }
@@ -285,7 +289,7 @@ extension AppleWalletPlugin: PKAddPaymentPassViewControllerDelegate {
     public func addPaymentPassViewController(_ controller: PKAddPaymentPassViewController, didFinishAdding pass: PKPaymentPass?, error: Error?) {
         DispatchQueue.main.async {
             controller.dismiss(animated: true)
-            
+
             if let error = error {
                 print("Error adding payment pass: \(error.localizedDescription)")
             } else if let pass = pass {
